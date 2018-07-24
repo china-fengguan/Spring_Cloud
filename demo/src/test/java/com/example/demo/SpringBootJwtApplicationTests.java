@@ -4,9 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -24,6 +24,9 @@ public class SpringBootJwtApplicationTests {
 
 	@Autowired
 	private WebApplicationContext context;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	private MockMvc mockMvc;
 
@@ -37,14 +40,15 @@ public class SpringBootJwtApplicationTests {
 	
 	@Test
 	public void testAUTHService() throws Exception {
-		String json = "{\"username\":\"omar\",\"password\":\"12345\"}";
+		String jsonString = "{\"username\":\"omar\",\"password\":\"12345\"}";
 		String signUpURI = "http://localhost:8762/auth/";
 		ResultActions result 
-	      = mockMvc.perform(post(signUpURI, "json").characterEncoding("UTF-8").content(json.getBytes()).contentType(MediaType.APPLICATION_JSON))
+	      = mockMvc.perform(post(signUpURI, "json").contentType(MediaType.APPLICATION_JSON).content(jsonString.getBytes()))
 	        .andExpect(status().isOk())
 	        .andExpect(header().exists("Authorization"));
 	 
 	    String resultString = result.andReturn().getResponse().getHeader("Authorization");
+	    System.out.println(resultString);
 		String requestURI = "http://localhost:8762/gallery/admin";
 		mockMvc.perform(post(requestURI, "json").header("Authorization", resultString).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON))
 	        .andExpect(status().isForbidden());
