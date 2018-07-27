@@ -38,7 +38,7 @@ class ServiceInstanceRestController {
         return this.discoveryClient.getInstances(applicationName);
     }
     
-	@RequestMapping("/")
+	@RequestMapping("/admin")
 	public String home() {
 		// This is useful for debugging
 		// When having multiple instance of gallery service running at different ports.

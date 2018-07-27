@@ -40,7 +40,7 @@ public class SpringBootJwtApplicationTests {
 	
 	@Test
 	public void testAUTHService() throws Exception {
-		String jsonString = "{\"username\":\"omar\",\"password\":\"12345\"}";
+		String jsonString = "{\"username\":\"admin\",\"password\":\"12345\"}";
 		String signUpURI = "http://localhost:8762/auth/";
 		ResultActions result 
 	      = mockMvc.perform(post(signUpURI, "json").contentType(MediaType.APPLICATION_JSON).content(jsonString.getBytes()))
@@ -49,7 +49,7 @@ public class SpringBootJwtApplicationTests {
 	 
 	    String resultString = result.andReturn().getResponse().getHeader("Authorization");
 	    System.out.println(resultString);
-		String requestURI = "http://localhost:8762/gallery/admin";
+		String requestURI = "http://localhost:8762/gallery/admin/";
 		mockMvc.perform(post(requestURI, "json").header("Authorization", resultString).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON))
 	        .andExpect(status().isForbidden());
 

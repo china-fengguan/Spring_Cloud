@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		// hard coding the users. All passwords must be encoded.
 		final List<AppUser> users = Arrays.asList(new AppUser(1, "omar", encoder.encode("12345"), "USER"),
-				new AppUser(2, "admin", encoder.encode("12345"), "ADMIN"));
+				new AppUser(2, "admin", encoder.encode("12345"), "ROLE_ADMIN,ROLE_USER"));
 
 		for (AppUser appUser : users) {
 			if (appUser.getUsername().equals(username)) {
@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				// So, we need to set it to that format, so we can verify and compare roles
 				// (i.e. hasRole("ADMIN")).
 				List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-						.commaSeparatedStringToAuthorityList("ROLE_" + appUser.getRole());
+						.commaSeparatedStringToAuthorityList(appUser.getRole());
 
 				// The "User" class is provided by Spring and represents a model class for user
 				// to be returned by UserDetailsService
