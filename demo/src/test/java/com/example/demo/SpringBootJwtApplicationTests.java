@@ -25,9 +25,6 @@ public class SpringBootJwtApplicationTests {
 	@Autowired
 	private WebApplicationContext context;
 	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 	private MockMvc mockMvc;
 
 	@Before
@@ -51,7 +48,9 @@ public class SpringBootJwtApplicationTests {
 	    System.out.println(resultString);
 		String requestURI = "http://localhost:8762/gallery/admin/";
 		mockMvc.perform(post(requestURI, "json").header("Authorization", resultString).characterEncoding("UTF-8").contentType(MediaType.APPLICATION_JSON))
-	        .andExpect(status().isForbidden());
+	        
+		.andExpect(status().isOk());
+//		.andExpect(status().isForbidden());
 
 	}
 

@@ -23,8 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		// hard coding the users. All passwords must be encoded.
-		final List<AppUser> users = Arrays.asList(new AppUser(1, "omar", encoder.encode("12345"), "USER"),
-				new AppUser(2, "admin", encoder.encode("12345"), "ROLE_ADMIN,ROLE_USER"));
+		final List<AppUser> users = Arrays.asList(new AppUser(1, "omar", encoder.encode("12345"), "ROLE_ADMIN1"),
+				new AppUser(2, "admin", encoder.encode("12345"), "ADMIN1,ROLE_ADMIN,ROLE_USER"));
 
 		for (AppUser appUser : users) {
 			if (appUser.getUsername().equals(username)) {
